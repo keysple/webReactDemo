@@ -1,0 +1,4 @@
+{
+  "presets": ["es2015", "stage-0", "react"]
+}
+/*babel插件的相关信息*/
