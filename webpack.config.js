@@ -3,13 +3,15 @@
  */
 'use strict';
 var webpack = require('webpack');
-var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
+var commonsPlugin = new webpack.optimize.CommonsChunkPlugin({
+    filename: 'common.js'
+});
 var path = require('path');
 
 module.exports = {
     devtool: 'eval',
     entry: [
-        'webpack-dev-server/client?http://localhost:3000',
+        'webpack-dev-server/client?http://localhost:8000',
         'webpack/hot/only-dev-server',
         './src/js/entry.js'
     ],
@@ -20,18 +22,32 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        commonsPlugin
+        // commonsPlugin
     ],
 
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    }
+                ]
             },
             {
                 test: /\.jsx?$/,
-                loaders: ['react-hot', 'babel'],
+                use: [
+                    {
+                        loader: 'react-hot-loader'
+                    },
+                    {
+                        loader: 'babel-loader'
+                    }
+                ],
                 exclude: /node_modules/,
 
             },
@@ -41,11 +57,29 @@ module.exports = {
             },
             {
                 test: /\.less$/,
-                loader: 'style-loader!css-loader!less-loader'
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'less-loader'
+                    }
+                ]
             },
             {
                 test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-                loader: "url-loader?limit=10000&mimetype=application/font-woff"
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 10000,
+                            mimetype: 'application/font-woff'
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -54,7 +88,8 @@ module.exports = {
         ]
     },
     resolve: {
-        root:'',
-        extensions: ['', '.js', '.json', '.less']
+        extensions: [
+            '.js', '.json', '.less'
+        ]
     }
 };
