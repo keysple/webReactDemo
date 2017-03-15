@@ -4,11 +4,14 @@
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
-var bundler = webpack(config);
 
-console.log(bundler);
 
-new WebpackDevServer(bundler).listen(8000, 'localhost', function (err, result) {
+new WebpackDevServer(webpack(config),{
+    publicPath:config.output.publicPath,
+    hot:true,
+    inline:true,
+    historyApiFallback:true
+}).listen(8000, 'localhost', function (err, result) {
     if (err) {
         return console.log(err);
     }

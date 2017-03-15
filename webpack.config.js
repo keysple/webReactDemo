@@ -4,21 +4,21 @@
 'use strict';
 var webpack = require('webpack');
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin({
-    filename: 'common.js'
+    filename: 'common.js'   /*共用代码打包*/
 });
-var path = require('path');
+let path = require('path');
 
-module.exports = {
-    devtool: 'eval',
-    entry: [
-        'webpack-dev-server/client?http://localhost:8000',
-        'webpack/hot/only-dev-server',
-        './src/js/entry.js'
+        module.exports = {
+            devtool: 'eval',
+            entry: [
+        'webpack-dev-server/client?http://localhost:8000',   /*inline mode */
+        'webpack/hot/only-dev-server',   /*热部署*/
+        path.resolve(__dirname, './src/js/entry.js')
     ],
     output: {
-        path: path.join(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
-        publicPath: '/static/'
+       publicPath: '/static/'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
